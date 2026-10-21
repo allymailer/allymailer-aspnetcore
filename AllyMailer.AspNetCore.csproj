@@ -10,7 +10,7 @@
     <NoWarn>$(NoWarn);CS1591</NoWarn>
 
     <PackageId>AllyMailer.AspNetCore</PackageId>
-    <Version>2.1.1</Version>
+    <Version>2.1.2</Version>
     <Authors>AllyMailer</Authors>
     <Description>AllyMailer Web API for ASP.NET Core: API client in DI, webhook endpoint</Description>
     <PackageTags>AllyMailer;email;aspnetcore;webhook</PackageTags>
@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="AllyMailer.Sdk" Version="2.1.1" />
+    <PackageReference Include="AllyMailer.Sdk" Version="2.1.2" />
   </ItemGroup>
 
   <ItemGroup>
