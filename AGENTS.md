@@ -11,9 +11,9 @@ AllyMailer ASP.NET Core — ASP.NET Core integration of the AllyMailer .NET (C#)
   dotnet build -c Release
   ```
 
-- **Source label.** Every request carries the query parameter `platform=aspnetcore.2.0.0,dotnet-sdk.2.0.0` (this package, then the SDK it is built on).
+- **Source label.** Every request carries the query parameter `platform=aspnetcore.2.1.1,dotnet-sdk.2.1.1` (this package, then the SDK it is built on).
 - **Tests.** Before a release the generator installs the package into a test app of ASP.NET Core and checks the client, the webhook endpoint against a mock of the API: no real API key, no real sends.
-- **Release.** The version (2.0.0 in the .csproj) and the tag `v2.0.0` come from the generator; README.md states the Web API version the release was generated from.
+- **Release.** The version (2.1.1 in the .csproj) and the tag `v2.1.1` come from the generator; README.md states the Web API version the release was generated from.
 - **Secrets.** Never commit API keys; the examples read `ALLYMAILER_API_KEY` from the environment.
 
 ## Integrating AllyMailer with this package
@@ -34,7 +34,7 @@ Rules that generated code must follow:
 - Base URL `https://cp.allymailer.com/ua/transactional/api/v1`; every method is POST with a JSON body; auth header `X-API-KEY`. The package does all of it.
 - First email without DNS: `domain/get-sandbox-domain` → `confirmed-email/create` (the user clicks the link within 48 hours) → `email/send` from `noreply@<sandbox-domain>` to the confirmed address. Account API key only; up to 10 confirmed addresses, 100 emails a day; the domain expires after 31 days.
 - Never ship a sandbox domain as the production sender (it is not in `domain/list`); read `from_email` from config. Production needs a verified domain: `domain/get-dns-records` → DNS records → `domain/validate-verification-record`, `domain/validate-dkim` → `domain/list`.
-- Set `message.idempotence_key` on retryable sends; retry network errors, `429` and `5xx` with backoff, not other errors unchanged. Up to 500 recipients and 10 MB per request, each attachment up to 7 MB; always `body.html` or `body.plaintext`.
+- Set `message.idempotence_key` on retryable sends; retry network errors, `429` and `5xx` with backoff, not other errors unchanged. Up to 500 recipients and 10 MB per request with the attachments in base64 (a third larger than the files); always `body.html` or `body.plaintext`.
 - Delivery events via webhook (`webhook/set`), not polling; the webhook endpoint of this package checks the `auth` signature of every notification.
 - Keep the default unsubscribe and tracking behaviour; changes go through AllyMailer support.
 - Do not invent methods or fields. Check the [README](README.md), the [API reference](https://docs.allymailer.com.ua/ua/web-api-ref) or [llms.txt](https://docs.allymailer.com.ua/llms.txt).
